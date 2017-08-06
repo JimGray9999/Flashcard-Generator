@@ -5,6 +5,17 @@ var inquirer = require("inquirer");
 var bCardDeck = []; // deck holds array of basic flashcards
 var cCardDeck = []; // deck holds array of cloze flashcards
 
+clozeCard.prototype.partial = function(card){
+  // remove cloze from the text
+  // display without the cloze
+  var fullString = this.card.text;
+  var clozeString = this.card.text.replace(this.cloze, "...");
+
+  return clozeString;
+};
+
+
+
 var taxDisclosures = new basicCard(
   "Tax information disclosures",
   "must be disclosed on a customer confirmation like OID"
