@@ -5,8 +5,7 @@
 
 // prototype functions //
   // toggle between showing the full card and cloze deleted
-  clozeCard.prototype.partial = function(card){
-
+  clozeCard.prototype.partial = function(){
     if (this.show === "full"){
       var clozeString = this.text;
       clozeString = clozeString.replace(this.cloze, "...")
@@ -19,13 +18,11 @@
   };
 
   // flips the card over
-  basicCard.prototype.flipCard = function(card){
+  basicCard.prototype.flipCard = function(){
     if (this.side === "front"){
       this.side = "back";
-      return card.back;
     } else {
       this.side = "front";
-      return card.front;
     }
   }
 // end prototype functions //
@@ -70,25 +67,51 @@ function studyCards(){
     }
   ]).then(function(inq){
     if(inq.choice === "cloze cards"){
-      // todo : load list of cloze cards
-      // todo : launch cycleCards function
+      // load list of cloze cards
+      // launch cycleCards function
       cycleCards(s53clozeDeck, "cloze");
     } else {
-      // todo: load basic cards
-      // todo : launch cycleCards function
+      // load basic cards
+      // launch cycleCards function
       cycleCards(s53basicDeck, "basic");
     }
   })
 }
 
+var cardPlace = 0;
+
 var cycleCards = function(deck, type){
   console.log(`Let's study from the ${type} deck`);
+  console.log(`Card ${cardPlace + 1} of ${deck.length} total cards`);
+  
+  if(deck[cardPlace].side === "front"){
+    var showCard = deck[cardPlace].front;
+  } else {
+    var showCard = deck[cardPlace].back;
+  }
+
   inquirer
   .prompt([
     {
-
+      type: "list",
+      message:`${showCard}`,
+      choices: ["flip card", "next card", "restart"],
+      name: "move"
     }
-  ])
+  ]).then(function(inq){
+      if(inq.move === "flip card"){
+        deck[cardPlace].flipCard();
+        cycleCards(deck, type);
+      } else if (inq.move === "next card"){
+        cardPlace++;
+        if (cardPlace > deck.length){
+          cardPlace = 0;
+        }
+        cycleCards(deck, type);
+      } else {
+        studyCards();
+      }
+    })
 }
 
 // start app

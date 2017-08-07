@@ -1,0 +1,13 @@
+{
+  "card001":
+  { "front": "Tax information disclosures",
+    "back": "must be disclosed on a customer confirmation like OID",
+    "side": "front"
+  },
+  "card002":
+  {
+    "front": "MSRB Exam Qualifications",
+    "back": "wait 30 days if fail, and if fail 3 times in a row, wait 6 months",
+    "side": "front"
+  }
+}
