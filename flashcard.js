@@ -1,59 +1,42 @@
 // required node packages
-  var basicCard = require("./BasicCard");
-  var clozeCard = require("./ClozeCard");
+  var BasicCard = require("./BasicCard");
+  var ClozeCard = require("./ClozeCard");
   var inquirer = require("inquirer");
-
-// prototype functions //
-  // toggle between showing the full card and cloze deleted
-  clozeCard.prototype.partial = function(){
-    if (this.show === "full"){
-      var clozeString = this.text;
-      clozeString = clozeString.replace(this.cloze, "...")
-      this.show = "cloze";
-      return clozeString;
-    }  else {
-      this.show = "full";
-      return this.text;
-    }
-  };
-
-  // flips the card over
-  basicCard.prototype.flipCard = function(){
-    if (this.side === "front"){
-      this.side = "back";
-    } else {
-      this.side = "front";
-    }
-  }
-// end prototype functions //
-
-// flash cards
-  // basic cards
-  var taxDisclosures = new basicCard(
-    "Tax information disclosures",
-    "must be disclosed on a customer confirmation like OID"
-  );
-
-  var msrbQual = new basicCard(
-    "MSRB Exam Qualifications",
-    "wait 30 days if fail, and if fail 3 times in a row, wait 6 months"
-  );
-
-  var moneyLaundering = new basicCard(
-    "3 stages of money laundering",
-    "1. Placement 2. Layering 3. Integration"
-  );
-
-  // cloze cards
-  var intPayments = new clozeCard(
-    "Interest payment claims filed, respond within 10 business days",
-    "10"
-  );
-// end flashcards
+  var jsonfile = require("jsonfile");
+  var basicFile = "basic-cards.json";
+  var clozeFile = "cloze-cards.json";
 
 // flashcard decks
-var s53basicDeck = [taxDisclosures, msrbQual, moneyLaundering]; // deck holds array of basic flashcards
-var s53clozeDeck = [intPayments]; // deck holds array of cloze flashcards
+var s53basicDeck = []; // deck holds array of basic flashcards
+var s53clozeDeck = []; // deck holds array of cloze flashcards
+var cardPlace = 0; // track which card is displayed
+var keys = [];
+
+jsonfile.readFile(basicFile, function(err, obj) {
+  for (var key in obj){
+    keys.push(key);
+    console.log(keys.length);
+  }
+    var anObject = keys[0];
+    console.log(obj.bCard001);
+    // for (i = 0 ; i < keys.length; i++){
+    //   var newCard = new BasicCard(obj[i].front, obj[i].back);
+    //   // s53basicDeck.push(newCard);
+    // }
+    
+    // console.log(obj);
+    // console.log(obj.bCards[0].front);
+    // console.log(`basic deck: ${s53basicDeck}`);
+});
+
+// jsonfile.readFile(clozeFile, function(err, obj) {
+//   for (var key in obj){
+//     s53clozeDeck.push(obj.cCards[key]);
+//     console.log(`cloze deck: ${s53clozeDeck}`);
+//     console.log(obj);
+//     console.log(obj.cCards[key]);
+//   }
+// });
 
 function studyCards(){
   console.log("FINRA Series 53 Flashcard Study!");
@@ -78,16 +61,24 @@ function studyCards(){
   })
 }
 
-var cardPlace = 0;
-
 var cycleCards = function(deck, type){
   console.log(`Let's study from the ${type} deck`);
   console.log(`Card ${cardPlace + 1} of ${deck.length} total cards`);
   
-  if(deck[cardPlace].side === "front"){
-    var showCard = deck[cardPlace].front;
+  if (type === "basic"){
+    if(deck[cardPlace].side === "front"){
+      var showCard = deck[cardPlace].front;
+    } else {
+      var showCard = deck[cardPlace].back;
+    }
+  } else if (type === "cloze"){
+    var showCard = deck[cardPlace].partial();
+  }
+
+  if (type === "basic"){
+    var cardChoices = ["flip card", "next card", "restart"];
   } else {
-    var showCard = deck[cardPlace].back;
+    var cardChoices = ["reveal/hide", "next card", "restart"];
   }
 
   inquirer
@@ -95,7 +86,7 @@ var cycleCards = function(deck, type){
     {
       type: "list",
       message:`${showCard}`,
-      choices: ["flip card", "next card", "restart"],
+      choices: [cardChoices[0], cardChoices[1], cardChoices[2]],
       name: "move"
     }
   ]).then(function(inq){
@@ -103,18 +94,22 @@ var cycleCards = function(deck, type){
         deck[cardPlace].flipCard();
         cycleCards(deck, type);
       } else if (inq.move === "next card"){
-        cardPlace++;
-        if (cardPlace > deck.length){
+        if (cardPlace === deck.length - 1){
           cardPlace = 0;
-        }
+        } else {
+          cardPlace++;
+        } 
         cycleCards(deck, type);
+      } else if (inq.move === "reveal/hide") {
+          cycleCards(deck, type);
       } else {
-        studyCards();
+          cardPlace = 0;
+          studyCards();
       }
     })
 }
 
 // start app
-studyCards();
+// studyCards();
 
 
