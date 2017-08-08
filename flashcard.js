@@ -16,9 +16,9 @@ jsonfile.readFile(basicFile, function(err, obj) {
   for (var key in obj){
     keys.push(key);
     console.log(keys.length);
-  }
-    var anObject = keys[0];
-    console.log(obj.bCard001);
+
+
+    console.log(obj);
     // for (i = 0 ; i < keys.length; i++){
     //   var newCard = new BasicCard(obj[i].front, obj[i].back);
     //   // s53basicDeck.push(newCard);
@@ -27,6 +27,7 @@ jsonfile.readFile(basicFile, function(err, obj) {
     // console.log(obj);
     // console.log(obj.bCards[0].front);
     // console.log(`basic deck: ${s53basicDeck}`);
+      }
 });
 
 // jsonfile.readFile(clozeFile, function(err, obj) {
