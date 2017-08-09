@@ -1,20 +1,21 @@
-{  
-  "bCard001": 
+{ "basic":[
   { 
+    "id": "1",
     "front": "Tax information disclosures",
     "back": "must be disclosed on a customer confirmation like OID",
     "side": "front"
   },
-  "bCard002": 
   {
+    "id": "2",
     "front": "MSRB Exam Qualifications",
     "back": "wait 30 days if fail, and if fail 3 times in a row, wait 6 months",
     "side": "front"
   },
-  "bCard003": 
   {
+    "id": "3",
     "front": "3 stages of money laundering",
     "back":"1. Placement 2. Layering 3. Integration",
     "side": "front"
   }
+]
 }

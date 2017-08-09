@@ -1,43 +1,14 @@
 // required node packages
-  var BasicCard = require("./BasicCard");
-  var ClozeCard = require("./ClozeCard");
+  var DeckManager = require("./DeckManager");
   var inquirer = require("inquirer");
-  var jsonfile = require("jsonfile");
   var basicFile = "basic-cards.json";
   var clozeFile = "cloze-cards.json";
+  var deckAdmin = new DeckManager;
 
 // flashcard decks
-var s53basicDeck = []; // deck holds array of basic flashcards
-var s53clozeDeck = []; // deck holds array of cloze flashcards
+let s53basicDeck = []; // deck holds array of basic flashcards
+let s53clozeDeck = []; // deck holds array of cloze flashcards
 var cardPlace = 0; // track which card is displayed
-var keys = [];
-
-jsonfile.readFile(basicFile, function(err, obj) {
-  for (var key in obj){
-    keys.push(key);
-    console.log(keys.length);
-
-
-    console.log(obj);
-    // for (i = 0 ; i < keys.length; i++){
-    //   var newCard = new BasicCard(obj[i].front, obj[i].back);
-    //   // s53basicDeck.push(newCard);
-    // }
-    
-    // console.log(obj);
-    // console.log(obj.bCards[0].front);
-    // console.log(`basic deck: ${s53basicDeck}`);
-      }
-});
-
-// jsonfile.readFile(clozeFile, function(err, obj) {
-//   for (var key in obj){
-//     s53clozeDeck.push(obj.cCards[key]);
-//     console.log(`cloze deck: ${s53clozeDeck}`);
-//     console.log(obj);
-//     console.log(obj.cCards[key]);
-//   }
-// });
 
 function studyCards(){
   console.log("FINRA Series 53 Flashcard Study!");
@@ -53,10 +24,13 @@ function studyCards(){
     if(inq.choice === "cloze cards"){
       // load list of cloze cards
       // launch cycleCards function
+      s53basicDeck =  deckAdmin.loadCloze(s53clozeDeck, clozeFile);
       cycleCards(s53clozeDeck, "cloze");
     } else {
       // load basic cards
       // launch cycleCards function
+      s53clozeDeck = deckAdmin.loadBasic(s53basicDeck, basicFile);
+      console.log(s53basicDeck);
       cycleCards(s53basicDeck, "basic");
     }
   })
@@ -111,6 +85,6 @@ var cycleCards = function(deck, type){
 }
 
 // start app
-// studyCards();
+studyCards();
 
 
