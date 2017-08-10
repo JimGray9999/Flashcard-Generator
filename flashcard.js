@@ -6,8 +6,8 @@
   var deckAdmin = new DeckManager;
 
 // flashcard decks
-let s53basicDeck = []; // deck holds array of basic flashcards
-let s53clozeDeck = []; // deck holds array of cloze flashcards
+var s53basicDeck = []; // deck holds array of basic flashcards
+var s53clozeDeck = []; // deck holds array of cloze flashcards
 var cardPlace = 0; // track which card is displayed
 
 function studyCards(){
@@ -24,12 +24,12 @@ function studyCards(){
     if(inq.choice === "cloze cards"){
       // load list of cloze cards
       // launch cycleCards function
-      s53basicDeck =  deckAdmin.loadCloze(s53clozeDeck, clozeFile);
+      s53clozeDeck = deckAdmin.loadCloze(clozeFile);
       cycleCards(s53clozeDeck, "cloze");
     } else {
       // load basic cards
       // launch cycleCards function
-      s53clozeDeck = deckAdmin.loadBasic(s53basicDeck, basicFile);
+      s53basicDeck = deckAdmin.loadBasic(basicFile);
       console.log(s53basicDeck);
       cycleCards(s53basicDeck, "basic");
     }
@@ -66,7 +66,7 @@ var cycleCards = function(deck, type){
     }
   ]).then(function(inq){
       if(inq.move === "flip card"){
-        deck[cardPlace].flipCard();
+        deck[cardPlace].text.flipCard();
         cycleCards(deck, type);
       } else if (inq.move === "next card"){
         if (cardPlace === deck.length - 1){

@@ -1,14 +1,9 @@
-{
-  "cloze": [
-  {
-    "id": "1",
+
+  [{
     "text": "Interest payment claims filed, respond within 10 business days",
     "cloze": "10"
   },
   {
-    "id": "2",
     "text": "A broker dealer working with municipal securities must be examined at least once every four calendar years",
     "cloze": "four calendar years"
-  }
-]
-}
+  }]

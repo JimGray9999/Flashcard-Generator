@@ -6,31 +6,27 @@ var basicFile = "basic-cards.json";
 var clozeFile = "cloze-cards.json"; 
 
 var DeckManager = function() {
-var keys = [];
 
-  this.loadBasic = function(deck, file){
-    jsonfile.readFile(file, function(err, obj) {
-      for (var key in obj){
-        // let newCard = new BasicCard(obj.id[key].front, obj.id[key].back);
-        console.log(obj.basic[0]);
-        deck.push(obj.basic[key]);
-      }
-      console.log("Deck loaded");
-      return deck;
-    });
+  this.loadBasic = function(file){
+    var deckArray = jsonfile.readFileSync(file);
+    var newArray = [];
+    for (i = 0 ; i < deckArray.length ; i++){
+      var card = new BasicCard(deckArray[i].front, deckArray[i].back);
+      newArray.push(card);
+    }
+    console.log(jsonfile.readFileSync(file));
+    return newArray;
   }
 
-  this.loadCloze = function(deck, file){
-    jsonfile.readFile(file, function(err, obj) {
-      for (var key in obj){
-
-        let newCard = new ClozeCard(cloze.obj[key].front, cloze.obj[key].back);
-        console.log(newCard);
-        deck.push(newCard);
-      }
-      console.log("Deck loaded");
-      return deck;
-    });
+  this.loadCloze = function(file){
+    var deckArray = jsonfile.readFileSync(file);
+    var newArray = [];
+    for (i = 0 ; i < deckArray.length ; i++){
+      var card = new ClozeCard(deckArray[i].front, deckArray[i].back);
+      newArray.push(card);
+    }
+    console.log(jsonfile.readFileSync(file));
+    return newArray;
   }
 }
 
