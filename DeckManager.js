@@ -22,7 +22,7 @@ var DeckManager = function() {
     var deckArray = jsonfile.readFileSync(file);
     var newArray = [];
     for (i = 0 ; i < deckArray.length ; i++){
-      var card = new ClozeCard(deckArray[i].front, deckArray[i].back);
+      var card = new ClozeCard(deckArray[i].text, deckArray[i].cloze);
       newArray.push(card);
     }
     console.log(jsonfile.readFileSync(file));

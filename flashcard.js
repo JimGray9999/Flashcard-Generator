@@ -66,7 +66,7 @@ var cycleCards = function(deck, type){
     }
   ]).then(function(inq){
       if(inq.move === "flip card"){
-        deck[cardPlace].text.flipCard();
+        deck[cardPlace].flipCard();
         cycleCards(deck, type);
       } else if (inq.move === "next card"){
         if (cardPlace === deck.length - 1){
